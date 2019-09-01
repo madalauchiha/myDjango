@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import resolve
-from lists import home_page
+from lists.views import home_page
 
 
 # Create your tests here.
