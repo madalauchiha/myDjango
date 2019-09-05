@@ -1,22 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # from django.http import HttpResponse
+from lists.models import Item
 
-no = 1
-
-
-# Create your views here.
-# def home_page(request):
-#     render(request, 'index.html')
 
 def home_page(request):
-    global no
-
     # return HttpResponse('<html><title>To-Do lists</title></html>')
-    new_item = request.POST.get('item_text', '')
 
-    if new_item:
-        new_item = str(no) + '. ' + new_item
-        no += 1
+    if request.method == 'POST':
+        new_item_text = request.POST.get('item_text')
+        Item.objects.create(text=new_item_text)
+        return redirect('/')
 
-    return render(request, 'home.html',
-                  {'new_item_text': new_item})
+    items = Item.objects.all()
+
+    return render(request, 'home.html', {'items': items})
