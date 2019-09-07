@@ -86,4 +86,23 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('Buy milk', page_text)
 
         # 两人都很满意，去睡觉了
-        self.fail('finish the test!')
+
+    def test_layout_and_styling(self):
+        # 伊迪丝访问首页
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # 她看到输入框完美地居中显示
+        input_box = self.browser.find_element_by_id('id_new_item')
+        # self.assertAlmostEqual(input_box.location['x'] + input_box.size['width'] / 2,
+        #                        512,
+        #                        delta=5)
+
+        # 她新建了一个清单，发现输入狂仍然居中显示
+        input_box.send_keys('testing')
+        input_box.send_keys(Keys.ENTER)
+        time.sleep(1)
+        input_box = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(input_box.location['x'] + input_box.size['width'] / 2,
+                               512,
+                               delta=5)
